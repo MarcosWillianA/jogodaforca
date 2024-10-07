@@ -70,8 +70,7 @@ function digitarLetras () {
         tecla.addEventListener('click', () => {
             letraEscolhida = tecla.value;  // Armazena o valor do botão
             tecla.style.pointerEvents = 'none';
-            tecla.style.opacity = '0.5'
-            tecla.style.color = '#FF0000'
+            tecla.style.backgroundColor = '#FF0000'
             console.log(letraEscolhida);
 
             let letraCorreta = false;
@@ -82,12 +81,12 @@ function digitarLetras () {
                 // Verificar se a letra escolhida ou suas variantes estão na posição
                 if (vogais[letraEscolhida] && vogais[letraEscolhida].includes(letra)) {
                     document.querySelectorAll('.inputLetras')[indice].value = letra;
-                    tecla.style.color = '#FFFF00';
+                    tecla.style.backgroundColor = '#3cb371';
                     letraCorreta = true;
                 } else if (letraEscolhida === letra) {
                     // Para consoantes, verificar se a letra escolhida é igual
                     document.querySelectorAll('.inputLetras')[indice].value = letra;
-                    tecla.style.color = '#FFFF00';
+                    tecla.style.backgroundColor = '#3cb371';
                     letraCorreta = true;
                 }
             });
@@ -125,3 +124,9 @@ function digitarLetras () {
 }
 
 digitarLetras();
+
+//Botão de reiniciar 
+
+reiniciar.addEventListener('click', () => {
+    location.reload();
+})
