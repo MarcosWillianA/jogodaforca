@@ -1,5 +1,6 @@
 const forca = document.querySelector('#imagemForca');
 const dica = document.querySelector('#dica');
+const resposta = document.querySelector('#resposta');
 const displayLetras = document.querySelector('#displayLetras');
 const teclas = document.querySelectorAll('.teclas');
 teclas.innerHTML = teclas.value
@@ -18,6 +19,7 @@ let erros = 0;
 let letraEscolhida = ''; 
 let inputLetras;
 let escolha = escolherPalavra(palavras);
+let vitoria = true;
 
 
 // Função para escolher palavra aleatória 
@@ -45,6 +47,7 @@ function gerarLetreiro () {
         inputLetras = document.createElement('input');
         inputLetras.type = 'text';
         inputLetras.classList.add('inputLetras');
+        inputLetras.setAttribute('readonly', 'readonly');
         displayLetras.appendChild(inputLetras);
     }
     return inputLetras;
@@ -55,6 +58,14 @@ gerarLetreiro();
 // Função para capturar as letras dos botões // Comparar 
 
 function digitarLetras () {
+    const vogais = {
+        'a': ['a', 'á', 'ã', 'â'],
+        'e': ['e', 'é', 'ê'],
+        'i': ['i', 'í'],
+        'o': ['o', 'ó', 'õ', 'ô'],
+        'u': ['u', 'ú', 'ü']
+    };
+    
     teclas.forEach(tecla => {
         tecla.addEventListener('click', () => {
             letraEscolhida = tecla.value;  // Armazena o valor do botão
@@ -66,11 +77,30 @@ function digitarLetras () {
             //Fazer a comparação e colocar as letras corretas no letreiro: 
 
             letrasIsoladas.forEach((letra, indice) => {
-                if (letraEscolhida === letra) {
+                // Verificar se a letra escolhida ou suas variantes estão na posição
+                if (vogais[letraEscolhida] && vogais[letraEscolhida].includes(letra)) {
+                    document.querySelectorAll('.inputLetras')[indice].value = letra;
+                    tecla.style.color = '#FFFF00';
+                } else if (letraEscolhida === letra) {
+                    // Para consoantes, verificar se a letra escolhida é igual
                     document.querySelectorAll('.inputLetras')[indice].value = letra;
                     tecla.style.color = '#FFFF00';
                 }
-            }) 
+            });
+
+            // AQUI VEM A CHECAGEM DE VITÓRIA
+
+            let todosPreenchidos = Array.from(document.querySelectorAll('.inputLetras')).every(input => input.value !== '');
+
+            if (todosPreenchidos) {
+                console.log('Você Venceu!');
+                resposta.innerHTML = `Acertou! A resposta é ${escolha.string}`;
+                teclas.forEach(tecla => {
+                    tecla.style.pointerEvents = 'none'; // Desabilita os cliques nos botões
+                });
+            }
+
+            
 
             if (letrasIsoladas.includes(letraEscolhida) === false) {
                 erros++;
