@@ -35,10 +35,10 @@ function escolherPalavra (objeto) {
     }
 }
 
-console.log(`Chave escolhida: ${escolha.chave}, string escolhida: ${escolha.string}`);
+//console.log(`Chave escolhida: ${escolha.chave}, string escolhida: ${escolha.string}`);
 dica.innerHTML = `dica: ${escolha.chave}`;
 letrasIsoladas = escolha.string.split('');
-console.log(letrasIsoladas);
+//console.log(letrasIsoladas);
 
 // Função para gerar os letreiros aleatoriamente
 
@@ -71,7 +71,7 @@ function digitarLetras () {
             letraEscolhida = tecla.value;  // Armazena o valor do botão
             tecla.style.pointerEvents = 'none';
             tecla.style.backgroundColor = '#FF0000'
-            console.log(letraEscolhida);
+            //console.log(letraEscolhida);
 
             let letraCorreta = false;
 
@@ -96,7 +96,7 @@ function digitarLetras () {
             let todosPreenchidos = Array.from(document.querySelectorAll('.inputLetras')).every(input => input.value !== '');
 
             if (todosPreenchidos) {
-                console.log('Você Venceu!');
+                //console.log('Você Venceu!');
                 resposta.innerHTML = `Acertou! A resposta é ${escolha.string}`;
                 teclas.forEach(tecla => {
                     tecla.style.pointerEvents = 'none'; // Desabilita os cliques nos botões
@@ -105,13 +105,13 @@ function digitarLetras () {
 
             if (!letraCorreta) {
                 erros++;
-                console.log(erros);
+                //console.log(erros);
                 forca.setAttribute('src', `img/forca0${erros}.png`);
                 if (erros > 5) {
                     teclas.forEach(tecla => {
                         tecla.style.pointerEvents = 'none';
                     });
-                    console.log('Game Over!');
+                    //console.log('Game Over!');
                     resposta.innerHTML = `Errou! A resposta é ${escolha.string}`;
                     letrasIsoladas.forEach((letra, indice) => {
                         document.querySelectorAll('.inputLetras')[indice].value = letra;
