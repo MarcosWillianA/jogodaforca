@@ -1,4 +1,4 @@
-const forca = document.querySelector('#imagem-forca');
+const forca = document.querySelector('#imagemForca');
 const dica = document.querySelector('#dica');
 const displayLetras = document.querySelector('#displayLetras');
 const teclas = document.querySelectorAll('.teclas');
@@ -14,8 +14,9 @@ const palavras = {
     comida: ['arroz', 'feijão', 'banana', 'maçã', 'laranja', 'tomate', 'cenoura', 'batata', 'pão', 'queijo', 'frango', 'peixe', 'ovo', 'alface', 'brócolis', 'chocolate', 'açúcar', 'sal', 'mel', 'iogurte']
 }
 
-let erros;
-let letraEscolhida; 
+let erros = 0;
+let letraEscolhida = ''; 
+let inputLetras;
 let escolha = escolherPalavra(palavras);
 
 
@@ -41,38 +42,53 @@ console.log(letrasIsoladas);
 
 function gerarLetreiro () {
     for (i = 0; i < escolha.string.length; i++) {
-        let inputLetras = document.createElement('input');
+        inputLetras = document.createElement('input');
         inputLetras.type = 'text';
         inputLetras.classList.add('inputLetras');
         displayLetras.appendChild(inputLetras);
     }
+    return inputLetras;
 }
 
 gerarLetreiro();
 
-// Função para capturar as letras dos botões
+// Função para capturar as letras dos botões // Comparar 
 
 function digitarLetras () {
     teclas.forEach(tecla => {
         tecla.addEventListener('click', () => {
             letraEscolhida = tecla.value;  // Armazena o valor do botão
+            tecla.style.pointerEvents = 'none';
+            tecla.style.opacity = '0.5'
+            tecla.style.color = '#FF0000'
             console.log(letraEscolhida);
+
+            //Fazer a comparação e colocar as letras corretas no letreiro: 
+
+            letrasIsoladas.forEach((letra, indice) => {
+                if (letraEscolhida === letra) {
+                    document.querySelectorAll('.inputLetras')[indice].value = letra;
+                    tecla.style.color = '#FFFF00';
+                }
+            }) 
+
+            if (letrasIsoladas.includes(letraEscolhida) === false) {
+                erros++;
+                console.log(erros);
+                forca.setAttribute('src', `img/forca0${erros}.png`);
+                if (erros > 5) {
+                    teclas.forEach(tecla => {
+                        tecla.style.pointerEvents = 'none';
+                    })
+                    console.log('Game Over!');
+                    letrasIsoladas.forEach((letra, indice) => {
+                        document.querySelectorAll('.inputLetras')[indice].value = letra;
+                    }) 
+                    return;
+                }
+            }
         });
     });
 }
 
-// Função para comparar as letras 
-
-function compararLetras () {
-    letrasIsoladas.forEach(letra => {
-        if (letra === letraEscolhida) {
-            console.log(`As letras são iguais`);
-        }
-        else {
-            console.log(`As letras são diferentes!`)
-        }
-    })
-    
-}
-
-compararLetras();
+digitarLetras();

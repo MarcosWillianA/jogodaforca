@@ -59,6 +59,7 @@ header {
     border: none;
     border-bottom: 2px solid black;
     text-align: center;
+    text-transform: uppercase;
     font-family: "Jersey 10", sans-serif;
     font-size: 1em;
 }
