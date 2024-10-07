@@ -1,3 +1,5 @@
+BACKUP DA LÓGICA DE VITÓRIA
+
 const forca = document.querySelector('#imagemForca');
 const dica = document.querySelector('#dica');
 const resposta = document.querySelector('#resposta');
@@ -74,8 +76,6 @@ function digitarLetras () {
             tecla.style.color = '#FF0000'
             console.log(letraEscolhida);
 
-            let letraCorreta = false;
-
             //Fazer a comparação e colocar as letras corretas no letreiro: 
 
             letrasIsoladas.forEach((letra, indice) => {
@@ -83,12 +83,10 @@ function digitarLetras () {
                 if (vogais[letraEscolhida] && vogais[letraEscolhida].includes(letra)) {
                     document.querySelectorAll('.inputLetras')[indice].value = letra;
                     tecla.style.color = '#FFFF00';
-                    letraCorreta = true;
                 } else if (letraEscolhida === letra) {
                     // Para consoantes, verificar se a letra escolhida é igual
                     document.querySelectorAll('.inputLetras')[indice].value = letra;
                     tecla.style.color = '#FFFF00';
-                    letraCorreta = true;
                 }
             });
 
@@ -104,19 +102,20 @@ function digitarLetras () {
                 });
             }
 
-            if (!letraCorreta) {
+            
+
+            if (letrasIsoladas.includes(letraEscolhida) === false) {
                 erros++;
                 console.log(erros);
                 forca.setAttribute('src', `img/forca0${erros}.png`);
                 if (erros > 5) {
                     teclas.forEach(tecla => {
                         tecla.style.pointerEvents = 'none';
-                    });
+                    })
                     console.log('Game Over!');
-                    resposta.innerHTML = `Errou! A resposta é ${escolha.string}`;
                     letrasIsoladas.forEach((letra, indice) => {
                         document.querySelectorAll('.inputLetras')[indice].value = letra;
-                    });
+                    }) 
                     return;
                 }
             }
